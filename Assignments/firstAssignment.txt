@@ -1,0 +1,60 @@
+Prerequisite:
+
+	1. Install node.js & VSCode(Both are free license) in your machine. 
+	2. Open VSCode and create a Workspace named "JSTraning" and add this workspace in VSCode.
+	3. Create a js file named "hello.js" and print "Hello World" using console.log();
+	4. Open Terminal in VSCode (Ctrl+Shift+`) and run the file as node hello.js and see if it prints the message "Hello World"	
+
+----------------------------------------------------------------------------------
+✅ Part 1: Data Types
+Declare variables for each of the following types:
+
+String
+
+Number
+
+Boolean
+
+Null
+
+Undefined
+
+BigInt
+
+Symbol
+
+Print the type of each variable using typeof.
+----------------------------------------------------------------------------------------
+✅ Part 2: Arrays
+Create an array named fruits with at least 5 fruit names.
+
+Add a new fruit to the end of the array.
+
+Remove the first fruit from the array.
+
+Print the length of the array.
+
+
+-----------------------------------------------------------------
+✅ Part 3: Objects
+Create an object named car with the following properties:
+
+brand
+
+model
+
+year
+
+isElectric
+
+Add a new property called color.
+
+Update the isElectric value.
+
+Print all key-value pairs in the car object.
+
+Create an array called garage that holds 3 car objects.
+---------------------------------------------------------------------
+🎯 Bonus Challenge:
+Write a function printGarageCars(garage) that prints the brand and model of every car in the garage.
+
