@@ -100,3 +100,54 @@ function printGarageCars(garage) {
   }   
 }
 printGarageCars(garage);
+
+console.log("5"+ 10); // Concatenation
+console.log(5 + 10); // Addition
+console.log(5 - 10); // Subtraction
+console.log("5" * 10); // Multiplication
+console.log(true + 1);  // Addition
+console.log(false - 1); // Subtraction
+console.log(Number("343")) // Conversion to number
+console.log(String(343)) // Conversion to string
+console.log(Boolean(0)) // Conversion to boolean
+console.log(Boolean(1)) // Conversion to boolean
+console.log(Boolean("0")) // Conversion to boolean
+console.log(Boolean("1")) // Conversion to boolean
+console.log(Boolean("")); // Conversion to boolean
+
+
+// IIFE (Immediately Invoked Function Expression) to print a message
+(function(){
+  console.log("Hello, I am attending JS training");
+})();
+
+/*A generator function in JavaScript is a special type of function that can be paused and resumed, 
+allowing you to yield multiple values over time instead of returning just one. 
+It's defined using the function* syntax and uses the yield keyword.*/
+
+function* numberGenerator() {
+   yield 1;
+   yield 2;
+   yield 3;
+}
+
+const gen = numberGenerator();
+
+console.log(gen.next()); // { value: 1, done: false }
+console.log(gen.next()); // { value: 2, done: false }
+console.log(gen.next()); // { value: 3, done: false }
+console.log(gen.next()); // { value: undefined, done: true }
+
+/*The setTimeout() function in JavaScript is used to delay the execution of a function by a specified number of milliseconds.*/
+setTimeout(function() {
+  console.log("This message is shown after 2 seconds");
+}, 2000);
+
+
+function greet(name) {
+  console.log("Hello, " + name);
+}
+
+setTimeout(greet, 1500, "Rohan");
+
+
