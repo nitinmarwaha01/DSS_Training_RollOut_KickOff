@@ -149,5 +149,3 @@ function greet(name) {
 }
 
 setTimeout(greet, 1500, "Rohan");
-
-
