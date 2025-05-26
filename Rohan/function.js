@@ -97,6 +97,7 @@ for (var i = 0; i < 5; i++) {
 
 //Currying is a functional programming technique in which a function takes multiple arguments and transforms it into a sequence of functions, each taking a single argument. This allows for partial application of functions and can lead to more reusable and composable code.
 //In this example, the `add` function takes two arguments, `a` and `b`, and returns their sum. The `curry` function takes a function `fn` as an argument and returns a new function that takes the first argument `a`. This new function returns another function that takes the second argument `b`. Finally, it calls the original function `fn` with both arguments.
+//In Simple words currying means functions returns another function
 function add(a, b) {
   return a + b;
 }
