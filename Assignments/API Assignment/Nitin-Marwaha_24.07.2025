@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "5a895e29-c19f-42a1-9f2c-817fde5127f7",
+		"name": "E-Commerce API Validation 2025-07-24",
+		"description": "Postman collection with test cases for all API tasks as per the PDF requirements.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31492288"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login - Valid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+									"let jsonData = pm.response.json();",
+									"pm.test('Token is present', () => { pm.expect(jsonData).to.have.property('token'); });",
+									"// Save token for later requests",
+									"pm.environment.set('auth_token', jsonData.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"kminchelle\",\n  \"password\": \"0lelplR\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Invalid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', () => pm.response.to.have.status(401));",
+									"pm.test('Error message present', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('error');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"validUser\",\n  \"password\": \"wrongPass\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Response is an array', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+									"pm.test('User ID is 1', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData.id).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Non-Existing ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 404', () => pm.response.to.have.status(404));\r",
+									"\r",
+									"pm.test('Response has error message about user not found', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.error || jsonData.message).to.match(/user not found|not exist/i);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/9999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Management",
+			"item": [
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Products array returned', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Products by Keyword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define acceptable maximum response time in milliseconds",
+									"const maxResponseTime = 1000; ",
+									"",
+									"// Test: Status code is 200 OK",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test: Response time is acceptable",
+									"pm.test(\"Response time is below \" + maxResponseTime + \"ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(maxResponseTime);",
+									"});",
+									"",
+									"// Test: Response body is an array",
+									"pm.test(\"Response is an array\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an(\"array\");",
+									"});",
+									"",
+									"// Test: Each product has expected structure (example keys: id, title, price)",
+									"pm.test(\"Each product has required fields\", function () {",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    // Ensure there's at least one product to test structure",
+									"    if (jsonData.length > 0) {",
+									"        jsonData.forEach(product => {",
+									"            pm.expect(product).to.have.property(\"id\");",
+									"            pm.expect(product).to.have.property(\"title\");",
+									"            pm.expect(product).to.have.property(\"price\");",
+									"        });",
+									"    } else {",
+									"        pm.log(\"Warning: Product list is empty\");",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/search?q=phone",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "phone"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart Operations",
+			"item": [
+				{
+					"name": "Get Cart by Valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Cart details returned', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('userId');",
+									"  pm.expect(jsonData).to.have.property('products');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/carts/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"carts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Products to Cart - Valid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Cart updated response', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('products');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"products\": [\n    { \"productId\": 1, \"quantity\": 2 },\n    { \"productId\": 2, \"quantity\": 1 }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/carts/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"carts",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Products to Cart - Invalid Product ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400 or 404', () => pm.expect(pm.response.code).to.be.oneOf([400, 404]));",
+									"pm.test('Error message - Product not found or similar', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData.error || jsonData.message).to.match(/product not found/i);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"products\": [\n    { \"productId\": 9999, \"quantity\": 1 }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/carts/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"carts",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart by Invalid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 404', () => pm.response.to.have.status(404));",
+									"pm.test('Error message - Cart not found', () => {",
+									"  let jsonData = pm.response.json();",
+									"  pm.expect(jsonData.error || jsonData.message).to.match(/cart not found/i);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/carts/9999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"carts",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"exec": [],
+				"type": "text/javascript"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"exec": [],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.yourdomain.com"
+		},
+		{
+			"key": "auth_token",
+			"value": ""
+		}
+	]
+}
