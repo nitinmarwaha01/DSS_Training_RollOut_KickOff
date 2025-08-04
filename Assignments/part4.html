@@ -1,0 +1,21 @@
+// Part 4: Use bind in Event Listener Context
+// 1. Create a button in HTML: <button id="greetBtn">Greet</button>
+// 2. Create an object user with firstName and a method greet() that shows an alert: "Hello, John!"
+// 3. Add an event listener to the button and bind greet() to the user object.
+// Bonus Task: Partial Application with .bind()
+// 1. Create a multiply(a, b) function.
+// 2. Use .bind() to create a double(x) function that always multiplies by 2.
+
+
+
+<button id="greetBtn">Greet</button>
+<script>
+  const user ={
+    firstName : 'John',
+  greet(){
+    alert(`Hello, ${this.firstName}!`)
+  }}
+  document.getElementById('greetBtn').addEventListener('click',
+  greet.bind(user)
+  )
+</script>
