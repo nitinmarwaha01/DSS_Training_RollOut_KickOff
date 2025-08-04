@@ -35,7 +35,6 @@ let car = {
   year: 2025,
   isElectric: false,
 };
-
 // Add new property
 car.color = "Red";
 
